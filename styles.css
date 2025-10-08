@@ -617,6 +617,28 @@ p {
     font-size: 1.1rem;
 }
 
+/* Property Card Price - Responsive */
+.property-card .price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2196F3;
+    margin: 0.5rem 0 0.75rem 0;
+}
+
+@media (min-width: 768px) {
+    .property-card .price {
+        font-size: 1.25rem;
+        margin: 0.5rem 0 1rem 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .property-card .price {
+        font-size: 1.35rem;
+        margin: 0.75rem 0 1.25rem 0;
+    }
+}
+
 .best-value-badge {
     background: linear-gradient(135deg, var(--deep-green), var(--accent-green));
     color: var(--white);
@@ -860,6 +882,8 @@ p {
 
 .property-content {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .property-content h3 {
@@ -869,7 +893,7 @@ p {
 
 .location {
     color: var(--dark-gray);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -877,6 +901,27 @@ p {
 
 .location i {
     color: var(--deep-blue);
+}
+
+.property-card .amenities {
+    margin-bottom: 0.75rem;
+}
+
+@media (min-width: 768px) {
+    .property-card .amenities {
+        margin-bottom: 1rem;
+    }
+}
+
+.property-card .property-footer {
+    margin-top: auto;
+    padding-top: 0.75rem;
+}
+
+@media (min-width: 768px) {
+    .property-card .property-footer {
+        padding-top: 1rem;
+    }
 }
 
 .amenities {

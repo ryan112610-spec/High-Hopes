@@ -175,12 +175,12 @@
 </head>
 <body>
     <div class="admin-header">
-        <div class="container">
+    <div class="container">
             <div class="admin-actions">
                 <div>
                     <h1><i class="fas fa-calendar-check"></i> Booking Management</h1>
                     <p>Manage property availability and blocked dates</p>
-                </div>
+        </div>
                 <div style="display: flex; gap: 1rem;">
                     <a href="index.html" class="btn-logout" style="text-decoration: none;">
                         <i class="fas fa-home"></i> View Website
@@ -188,15 +188,15 @@
                     <button onclick="logout()" class="btn-logout">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
-                </div>
+            </div>
             </div>
         </div>
-    </div>
+                    </div>
 
     <div class="property-management">
         <div class="stats-container" id="stats-container">
             <!-- Stats will be inserted here -->
-        </div>
+                </div>
         <div id="properties-container">
             <!-- Properties will be loaded here -->
         </div>
@@ -254,7 +254,7 @@
 
         // Load properties and render
         function loadProperties() {
-            const properties = JSON.parse(localStorage.getItem('properties')) || [];
+                const properties = JSON.parse(localStorage.getItem('properties')) || [];
             const container = document.getElementById('properties-container');
             
             if (properties.length === 0) {
@@ -341,9 +341,9 @@
             
             if (!startDate || !endDate) {
                 alert('Please select both start and end dates.');
-                return;
-            }
-            
+                            return;
+                        }
+                        
             const start = new Date(startDate);
             const end = new Date(endDate);
             
@@ -397,7 +397,7 @@
             const properties = JSON.parse(localStorage.getItem('properties')) || [];
             properties[propertyIndex].unavailableRanges.splice(rangeIndex, 1);
             
-            localStorage.setItem('properties', JSON.stringify(properties));
+                localStorage.setItem('properties', JSON.stringify(properties));
             loadProperties();
             showNotification('Blocked date removed successfully!', 'success');
         }

@@ -701,6 +701,7 @@ function renderProperties(propertiesToShow) {
                 <div class="property-content">
                     <h3>${property.name}</h3>
                     <p class="location"><i class="fas fa-map-marker-alt"></i> ${property.location}</p>
+                    <p class="price">$${property.price}/night</p>
                     <div class="amenities">
                         <span><i class="fas fa-bed"></i> ${property.beds} beds</span>
                         <span><i class="fas fa-bath"></i> ${property.baths} baths</span>
@@ -711,7 +712,6 @@ function renderProperties(propertiesToShow) {
                             <i class="fas fa-star"></i>
                             <span>4.8</span>
                         </div>
-                        <span class="price">$${property.price}/night</span>
                     </div>
                 </div>
             </a>
