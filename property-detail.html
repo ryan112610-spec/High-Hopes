@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Detail - High Hopes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+                <i class="fas fa-mountain"></i>
+                <span>High Hopes</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#properties" class="nav-link">Properties</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-primary">Book Now</button>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Property Hero -->
+    <section class="property-hero">
+        <div class="container">
+            <h1 id="property-name"></h1>
+            <div class="location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span id="property-location"></span>
+            </div>
+            <div class="rating">
+                <i class="fas fa-star"></i>
+                <span>4.8 (47 reviews)</span> <!-- Static for now -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Property Details -->
+    <section class="property-details">
+        <div class="container">
+            <div class="property-content">
+                <div class="property-main">
+                    <!-- Property Image Gallery -->
+                    <div class="property-gallery">
+                        <img id="property-image" alt="Property Image" class="main-image">
+                        <div class="gallery-thumbnails" id="gallery-thumbnails">
+                            <!-- Thumbnails will be added dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Property Information -->
+                    <div class="property-info">
+                        <h2>About This Property</h2>
+                        <div class="property-stats" style="display: flex; gap: 2rem; margin-bottom: 2rem; font-size: 1.1rem;">
+                            <span><strong id="stat-guests"></strong> guests</span>
+                            <span><strong id="stat-bedrooms"></strong> bedrooms</span>
+                            <span><strong id="stat-beds"></strong> beds</span>
+                            <span><strong id="stat-baths"></strong> bath</span>
+                        </div>
+                        
+                        <h3>What this place offers</h3>
+                        <div id="amenities-container"></div>
+                        
+                        <div id="not-included-container" style="margin-top: 2rem;"></div>
+                    </div>
+                </div>
+
+                <!-- Booking Card -->
+                <div class="booking-card">
+                    <h3>Send Inquiry</h3>
+                    <form class="booking-form" id="inquiryForm">
+                        <div class="date-inputs">
+                            <div class="form-group">
+                                <label for="checkin">Check-in</label>
+                                <input type="date" id="checkin" name="checkin" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout">Check-out</label>
+                                <input type="date" id="checkout" name="checkout" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="guests">Number of Guests</label>
+                            <select id="guests" name="guests" required>
+                                <option value="">Select guests</option>
+                                <!-- options up to maxGuests dynamically -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">
+                            Send Inquiry
+                        </button>
+                    </form>
+                    <p id="price-estimate"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const homeName = urlParams.get('home');
+        
+        if (!homeName) {
+            alert('No home specified');
+            window.location.href = 'index.html';
+        }
+        
+        const properties = JSON.parse(localStorage.getItem('properties')) || [];
+        const property = properties.find(p => p.name === homeName);
+        
+        if (!property) {
+            alert('Home not found');
+            window.location.href = 'index.html';
+        }
+        
+        document.getElementById('property-name').textContent = property.name;
+        document.getElementById('property-location').textContent = property.location;
+        
+        // Set main image
+        const mainImage = document.getElementById('property-image');
+        const images = property.images || [property.imageUrl];
+        mainImage.src = images[0];
+        
+        // Create gallery thumbnails if multiple images exist
+        if (images.length > 1) {
+            const thumbnailsContainer = document.getElementById('gallery-thumbnails');
+            images.forEach((imgUrl, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = imgUrl;
+                thumb.alt = `${property.name} - Image ${index + 1}`;
+                thumb.className = 'gallery-thumbnail' + (index === 0 ? ' active' : '');
+                thumb.addEventListener('click', () => {
+                    mainImage.src = imgUrl;
+                    document.querySelectorAll('.gallery-thumbnail').forEach(t => t.classList.remove('active'));
+                    thumb.classList.add('active');
+                });
+                thumbnailsContainer.appendChild(thumb);
+            });
+        }
+        
+        // Property stats
+        document.getElementById('stat-guests').textContent = property.maxGuests;
+        document.getElementById('stat-bedrooms').textContent = property.bedrooms || property.beds;
+        document.getElementById('stat-beds').textContent = property.beds;
+        document.getElementById('stat-baths').textContent = property.baths;
+        
+        // Amenities
+        const amenitiesContainer = document.getElementById('amenities-container');
+        if (property.amenities) {
+            let amenitiesHTML = '<div style="display: grid; gap: 2rem;">';
+            
+            for (const [category, items] of Object.entries(property.amenities)) {
+                amenitiesHTML += `
+                    <div style="border-bottom: 1px solid #e0e0e0; padding-bottom: 1.5rem;">
+                        <h4 style="margin-bottom: 1rem; color: #333; font-size: 1.1rem;">${category}</h4>
+                        <div style="display: grid; gap: 0.75rem;">
+                `;
+                
+                items.forEach(item => {
+                    // Choose icon based on item content
+                    let icon = 'fa-check';
+                    if (item.toLowerCase().includes('wifi')) icon = 'fa-wifi';
+                    else if (item.toLowerCase().includes('tv')) icon = 'fa-tv';
+                    else if (item.toLowerCase().includes('parking')) icon = 'fa-car';
+                    else if (item.toLowerCase().includes('kitchen')) icon = 'fa-utensils';
+                    else if (item.toLowerCase().includes('mountain')) icon = 'fa-mountain';
+                    else if (item.toLowerCase().includes('pet')) icon = 'fa-paw';
+                    else if (item.toLowerCase().includes('smoke')) icon = 'fa-shield-alt';
+                    else if (item.toLowerCase().includes('hair dryer')) icon = 'fa-wind';
+                    else if (item.toLowerCase().includes('heating')) icon = 'fa-temperature-high';
+                    else if (item.toLowerCase().includes('patio') || item.toLowerCase().includes('balcony')) icon = 'fa-tree';
+                    
+                    amenitiesHTML += `
+                        <div style="display: flex; align-items: start; gap: 1rem;">
+                            <i class="fas ${icon}" style="margin-top: 0.25rem; color: #4CAF50;"></i>
+                            <span style="color: #555;">${item}</span>
+                        </div>
+                    `;
+                });
+                
+                amenitiesHTML += '</div></div>';
+            }
+            amenitiesHTML += '</div>';
+            amenitiesContainer.innerHTML = amenitiesHTML;
+        } else {
+            amenitiesContainer.innerHTML = `
+                <div class="amenities-grid">
+                    <div class="amenity-item"><i class="fas fa-bed"></i><span>${property.beds} Beds</span></div>
+                    <div class="amenity-item"><i class="fas fa-bath"></i><span>${property.baths} Bath</span></div>
+                    <div class="amenity-item"><i class="fas fa-users"></i><span>${property.maxGuests} Guests</span></div>
+                </div>
+            `;
+        }
+        
+        // Not Included
+        const notIncludedContainer = document.getElementById('not-included-container');
+        if (property.notIncluded && property.notIncluded.length > 0) {
+            let notIncludedHTML = `
+                <div style="border-top: 1px solid #e0e0e0; padding-top: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem; color: #333; font-size: 1.1rem;">Not included</h4>
+                    <div style="display: grid; gap: 0.75rem;">
+            `;
+            
+            property.notIncluded.forEach(item => {
+                notIncludedHTML += `
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-times" style="color: #999;"></i>
+                        <span style="color: #999; text-decoration: line-through;">${item}</span>
+                    </div>
+                `;
+            });
+            
+            notIncludedHTML += '</div></div>';
+            notIncludedContainer.innerHTML = notIncludedHTML;
+        }
+        
+        // Guests select
+        const guestsSelect = document.getElementById('guests');
+        for (let i = 1; i <= property.maxGuests; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `${i} Guest${i > 1 ? 's' : ''}`;
+            guestsSelect.appendChild(option);
+        }
+        
+        // Initialize EmailJS (replace with your user ID)
+        emailjs.init('YOUR_USER_ID');
+
+        // Inquiry form
+        document.getElementById('inquiryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const checkin = new Date(document.getElementById('checkin').value);
+            const checkout = new Date(document.getElementById('checkout').value);
+            const guests = parseInt(document.getElementById('guests').value);
+            const email = document.getElementById('email').value;
+            
+            if (checkout <= checkin || guests > property.maxGuests) {
+                alert('Invalid details');
+                return;
+            }
+            
+            const nights = Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24));
+            const estimate = nights * property.price;
+            document.getElementById('price-estimate').textContent = `Rough Estimate: $${estimate} for ${nights} nights`;
+            
+            // Send email
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+                home_name: property.name,
+                checkin: checkin.toDateString(),
+                checkout: checkout.toDateString(),
+                guests: guests,
+                estimate: estimate,
+                booker_email: email,
+                to_email: 'vitamgreenberg@gmail.com'
+            }).then(() => {
+                alert('Inquiry sent successfully!');
+                this.reset();
+            }, (error) => {
+                alert('Failed to send inquiry: ' + error.text);
+            });
+        });
+        
+        // Date constraints
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('checkin').min = today;
+        document.getElementById('checkout').min = today;
+        
+        document.getElementById('checkin').addEventListener('change', function() {
+            const minCheckout = new Date(this.value);
+            minCheckout.setDate(minCheckout.getDate() + 1);
+            document.getElementById('checkout').min = minCheckout.toISOString().split('T')[0];
+        });
+    </script>
+</body>
+</html>

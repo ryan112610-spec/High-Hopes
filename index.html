@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Hopes - Beautiful House Rentals</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://apis.google.com/js/api.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="scrollToHero()" style="cursor: pointer;">
+                <i class="fas fa-mountain"></i>
+                <span>High Hopes</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#properties" class="nav-link">Properties</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-primary">Book Now</button>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="moving-dots">
+            <div class="moving-dot"></div>
+            <div class="moving-dot"></div>
+            <div class="moving-dot"></div>
+            <div class="moving-dot"></div>
+            <div class="moving-dot"></div>
+            <div class="moving-dot"></div>
+        </div>
+        <div class="hero-content">
+            <h1>Find Your Perfect Getaway</h1>
+            <p>Discover beautiful homes in stunning locations, perfect for your next adventure</p>
+        </div>
+        <div class="hero-image">
+            <div class="floating-shape-1"></div>
+            <div class="floating-shape-2"></div>
+            <div class="best-value-badge-hero">BEST VALUE</div>
+            <div class="floating-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop" alt="Beautiful House">
+                </div>
+                <div class="card-content">
+                    <h4>Coastal Paradise</h4>
+                    <p>Malibu, CA</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.9 (128 reviews)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="search-container">
+                <form id="hero-search-form" class="search-form">
+                    <div class="search-field">
+                        <label for="search-checkin">Check-in</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input type="date" id="search-checkin" required>
+                        </div>
+                    </div>
+                    <div class="search-field">
+                        <label for="search-checkout">Check-out</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input type="date" id="search-checkout" required>
+                        </div>
+                    </div>
+                    <div class="search-field">
+                        <label for="search-guests">Guests</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-users"></i>
+                            <select id="search-guests" required>
+                                <option value="">Select guests</option>
+                                <option value="1">1 Guest</option>
+                                <option value="2">2 Guests</option>
+                                <option value="3">3 Guests</option>
+                                <option value="4">4 Guests</option>
+                                <option value="5">5 Guests</option>
+                                <option value="6">6 Guests</option>
+                                <option value="7">7 Guests</option>
+                                <option value="8">8 Guests</option>
+                                <option value="9">9 Guests</option>
+                                <option value="10">10 Guests</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Search</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Properties -->
+    <section id="properties" class="properties">
+        <div class="properties-dots">
+            <div class="properties-dot"></div>
+            <div class="properties-dot"></div>
+            <div class="properties-dot"></div>
+        </div>
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Exclusive Properties</h2>
+                <p>Discover our carefully curated collection of premium vacation homes</p>
+            </div>
+            <div class="properties-grid">
+                <!-- Properties will be rendered dynamically here -->
+            </div>
+            <div class="view-more">
+                <button class="btn-secondary">View Availability</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-dots">
+            <div class="features-dot"></div>
+            <div class="features-dot"></div>
+            <div class="features-dot"></div>
+        </div>
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose High Hopes?</h2>
+                <p>We provide exceptional service and unforgettable stays at our exclusive properties</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Safe & Secure</h3>
+                    <p>All properties are verified and meet our safety standards</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Exclusive Collection</h3>
+                    <p>Our properties are personally owned and maintained to the highest standards</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Support</h3>
+                    <p> We are always here to help you with anything</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Top Rated</h3>
+                    <p>Consistently high ratings from our satisfied guests</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About High Hopes</h2>
+                    <p>We are passionate about providing exceptional vacation experiences through our carefully curated collection of premium properties. Each home in our portfolio has been personally selected and maintained to ensure the highest quality standards.</p>
+                    <p>From cozy mountain cabins to luxurious beachfront villas, our exclusive properties offer unique experiences in stunning locations. We take pride in offering personalized service and creating unforgettable memories for our guests.</p>
+                    <button class="btn-primary">Learn More</button>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500&h=400&fit=crop" alt="Beautiful Property">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get in Touch</h2>
+                <p>Have questions? We'd love to hear from you</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>highhopesproperties@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+1 (917) 601-5105</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-mountain"></i>
+                        <span>High Hopes</span>
+                    </div>
+                    <p>Making your travel dreams come true, one beautiful home at a time.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#properties">Properties</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Guest Services</h4>
+                    <ul>
+                        <li><a href="#">Booking Information</a></li>
+                        <li><a href="#">House Rules</a></li>
+                        <li><a href="#">Cancellation Policy</a></li>
+                        <li><a href="#">Guest Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe for exclusive offers and property updates</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button class="btn-primary">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 High Hopes. All rights reserved. <a href="admin-signin.html" style="color: #666; text-decoration: none; margin-left: 1rem;">·</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+

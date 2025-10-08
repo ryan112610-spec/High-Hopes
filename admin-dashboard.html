@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - High Hopes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .admin-header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        .admin-header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+        .admin-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        .property-management {
+            display: grid;
+            gap: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            padding: 0 2rem;
+        }
+        .property-admin-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .property-admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .property-admin-header h3 {
+            margin: 0;
+            color: #333;
+        }
+        .property-details {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+        .blocked-dates-section {
+            margin-top: 1.5rem;
+        }
+        .blocked-dates-list {
+            display: grid;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .blocked-date-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+        .blocked-date-item .date-range {
+            font-weight: 500;
+            color: #333;
+        }
+        .blocked-date-item .date-info {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        .btn-remove {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        .btn-remove:hover {
+            background: #da190b;
+        }
+        .add-blocked-date-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .add-blocked-date-form input {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .btn-add {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+        .btn-add:hover {
+            background: #45a049;
+        }
+        .btn-logout {
+            background: white;
+            color: #4CAF50;
+            border: 2px solid white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .btn-logout:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .no-bookings {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+            font-style: italic;
+        }
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-card h4 {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4CAF50;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <div class="container">
+            <div class="admin-actions">
+                <div>
+                    <h1><i class="fas fa-calendar-check"></i> Booking Management</h1>
+                    <p>Manage property availability and blocked dates</p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="index.html" class="btn-logout" style="text-decoration: none;">
+                        <i class="fas fa-home"></i> View Website
+                    </a>
+                    <button onclick="logout()" class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="property-management">
+        <div class="stats-container" id="stats-container">
+            <!-- Stats will be inserted here -->
+        </div>
+        <div id="properties-container">
+            <!-- Properties will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Security check - must be at the top before any other code
+        (function() {
+            function validateSession() {
+                const sessionData = localStorage.getItem('adminSession');
+                
+                if (!sessionData) {
+                    window.location.replace('admin-signin.html');
+                    throw new Error('Unauthorized access');
+                }
+                
+                try {
+                    const session = JSON.parse(sessionData);
+                    const now = Date.now();
+                    
+                    // Check if session exists and has required fields
+                    if (!session.token || !session.timestamp || !session.expires) {
+                        throw new Error('Invalid session');
+                    }
+                    
+                    // Check if session has expired (4 hours)
+                    if (now > session.expires) {
+                        localStorage.removeItem('adminSession');
+                        window.location.replace('admin-signin.html');
+                        throw new Error('Session expired');
+                    }
+                    
+                    // Verify token format (basic check)
+                    if (session.token.length < 20) {
+                        throw new Error('Invalid token');
+                    }
+                    
+                    // Update last activity
+                    session.lastActivity = now;
+                    localStorage.setItem('adminSession', JSON.stringify(session));
+                    
+                } catch (e) {
+                    localStorage.removeItem('adminSession');
+                    localStorage.removeItem('adminLoggedIn');
+                    window.location.replace('admin-signin.html');
+                    throw new Error('Unauthorized');
+                }
+            }
+            
+            validateSession();
+            
+            // Re-validate every 30 seconds
+            setInterval(validateSession, 30000);
+        })();
+
+        // Load properties and render
+        function loadProperties() {
+            const properties = JSON.parse(localStorage.getItem('properties')) || [];
+            const container = document.getElementById('properties-container');
+            
+            if (properties.length === 0) {
+                container.innerHTML = '<div class="no-bookings">No properties found.</div>';
+                return;
+            }
+
+            container.innerHTML = properties.map((property, index) => {
+                const blockedDates = property.unavailableRanges || [];
+                
+                return `
+                    <div class="property-admin-card">
+                        <div class="property-admin-header">
+                            <div>
+                                <h3>${property.name}</h3>
+                                <div class="property-details">
+                                    <span><i class="fas fa-map-marker-alt"></i> ${property.location}</span>
+                                    <span><i class="fas fa-users"></i> Up to ${property.maxGuests} guests</span>
+                                    <span><i class="fas fa-dollar-sign"></i> $${property.price}/night</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="blocked-dates-section">
+                            <h4 style="margin-bottom: 1rem; color: #333;">
+                                <i class="fas fa-ban"></i> Blocked Dates (${blockedDates.length})
+                            </h4>
+                            
+                            <div class="blocked-dates-list">
+                                ${blockedDates.length === 0 ? 
+                                    '<div class="no-bookings">No blocked dates. Property is fully available.</div>' :
+                                    blockedDates.map((range, rangeIndex) => {
+                                        const start = new Date(range.start);
+                                        const end = new Date(range.end);
+                                        const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                                        
+                                        return `
+                                            <div class="blocked-date-item">
+                                                <div>
+                                                    <div class="date-range">
+                                                        ${start.toLocaleDateString()} - ${end.toLocaleDateString()}
+                                                    </div>
+                                                    <div class="date-info">
+                                                        ${nights} night${nights !== 1 ? 's' : ''}
+                                                    </div>
+                                                </div>
+                                                <button class="btn-remove" onclick="removeBlockedDate(${index}, ${rangeIndex})">
+                                                    <i class="fas fa-trash"></i> Remove
+                                                </button>
+                                            </div>
+                                        `;
+                                    }).join('')
+                                }
+                            </div>
+                            
+                            <div class="add-blocked-date-form">
+                                <input type="date" id="start-date-${index}" required>
+                                <input type="date" id="end-date-${index}" required>
+                                <button class="btn-add" onclick="addBlockedDate(${index})">
+                                    <i class="fas fa-plus"></i> Add Blocked Date
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Set minimum date to today for all date inputs
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.min = today;
+            });
+
+            updateStats();
+        }
+
+        // Add blocked date
+        function addBlockedDate(propertyIndex) {
+            const startInput = document.getElementById(`start-date-${propertyIndex}`);
+            const endInput = document.getElementById(`end-date-${propertyIndex}`);
+            
+            const startDate = startInput.value;
+            const endDate = endInput.value;
+            
+            if (!startDate || !endDate) {
+                alert('Please select both start and end dates.');
+                return;
+            }
+            
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            
+            if (end <= start) {
+                alert('End date must be after start date.');
+                return;
+            }
+            
+            const properties = JSON.parse(localStorage.getItem('properties')) || [];
+            const property = properties[propertyIndex];
+            
+            if (!property.unavailableRanges) {
+                property.unavailableRanges = [];
+            }
+            
+            // Check for overlapping dates
+            const hasOverlap = property.unavailableRanges.some(range => {
+                const existingStart = new Date(range.start);
+                const existingEnd = new Date(range.end);
+                return (start < existingEnd && end > existingStart);
+            });
+            
+            if (hasOverlap) {
+                alert('This date range overlaps with an existing blocked period.');
+                return;
+            }
+            
+            property.unavailableRanges.push({
+                start: start.toISOString(),
+                end: end.toISOString()
+            });
+            
+            // Sort by start date
+            property.unavailableRanges.sort((a, b) => new Date(a.start) - new Date(b.start));
+            
+            localStorage.setItem('properties', JSON.stringify(properties));
+            
+            startInput.value = '';
+            endInput.value = '';
+            
+            loadProperties();
+            showNotification('Blocked date added successfully!', 'success');
+        }
+
+        // Remove blocked date
+        function removeBlockedDate(propertyIndex, rangeIndex) {
+            if (!confirm('Are you sure you want to remove this blocked date?')) {
+                return;
+            }
+            
+            const properties = JSON.parse(localStorage.getItem('properties')) || [];
+            properties[propertyIndex].unavailableRanges.splice(rangeIndex, 1);
+            
+            localStorage.setItem('properties', JSON.stringify(properties));
+            loadProperties();
+            showNotification('Blocked date removed successfully!', 'success');
+        }
+
+        // Update statistics
+        function updateStats() {
+            const properties = JSON.parse(localStorage.getItem('properties')) || [];
+            const totalProperties = properties.length;
+            const totalBlockedDates = properties.reduce((sum, prop) => 
+                sum + (prop.unavailableRanges ? prop.unavailableRanges.length : 0), 0
+            );
+            
+            // Count properties with current bookings
+            const today = new Date();
+            const propertiesWithBookings = properties.filter(prop => 
+                (prop.unavailableRanges || []).some(range => {
+                    const start = new Date(range.start);
+                    const end = new Date(range.end);
+                    return today >= start && today <= end;
+                })
+            ).length;
+
+            const statsContainer = document.getElementById('stats-container');
+            statsContainer.innerHTML = `
+                <div class="stat-card">
+                    <h4>Total Properties</h4>
+                    <div class="stat-value">${totalProperties}</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Currently Booked</h4>
+                    <div class="stat-value">${propertiesWithBookings}</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Total Blocked Dates</h4>
+                    <div class="stat-value">${totalBlockedDates}</div>
+                </div>
+            `;
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminSession');
+            localStorage.removeItem('adminLoggedIn');
+            window.location.replace('admin-signin.html');
+        }
+
+        // Auto-logout on inactivity (30 minutes)
+        let inactivityTimer;
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                alert('You have been logged out due to inactivity.');
+                logout();
+            }, 30 * 60 * 1000); // 30 minutes
+        }
+
+        // Track user activity
+        document.addEventListener('mousemove', resetInactivityTimer);
+        document.addEventListener('keypress', resetInactivityTimer);
+        document.addEventListener('click', resetInactivityTimer);
+        resetInactivityTimer();
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-message">${message}</span>
+                    <button class="notification-close">&times;</button>
+                </div>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
+                color: white;
+                padding: 16px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                max-width: 400px;
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                .notification-content {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .notification-close {
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-size: 20px;
+                    cursor: pointer;
+                    margin-left: 16px;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            const closeButton = notification.querySelector('.notification-close');
+            closeButton.addEventListener('click', () => {
+                notification.remove();
+            });
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Load properties on page load
+        loadProperties();
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Sign In - High Hopes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container" style="max-width: 400px; margin: 100px auto; text-align: center;">
+        <div style="margin-bottom: 2rem;">
+            <i class="fas fa-mountain" style="font-size: 3rem; color: #4CAF50;"></i>
+            <h2 style="margin-top: 1rem;">Admin Sign In</h2>
+            <p style="color: #666;">Manage your property bookings</p>
+        </div>
+        <form id="admin-signin-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%;">Sign In</button>
+        </form>
+        <div style="margin-top: 2rem;">
+            <a href="index.html" style="color: #4CAF50; text-decoration: none;">
+                <i class="fas fa-arrow-left"></i> Back to Website
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Simple encryption function
+        function encrypt(text) {
+            return btoa(encodeURIComponent(text).split('').map((char, i) => 
+                String.fromCharCode(char.charCodeAt(0) + (i % 10))
+            ).join(''));
+        }
+
+        // Generate session token
+        function generateSessionToken(username) {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substring(2);
+            const data = `${username}:${timestamp}:${random}`;
+            return encrypt(data);
+        }
+
+        document.getElementById('admin-signin-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'admin' && password === 'Lamanno2010') {
+                const token = generateSessionToken(username);
+                const sessionData = {
+                    token: token,
+                    timestamp: Date.now(),
+                    expires: Date.now() + (4 * 60 * 60 * 1000) // 4 hours
+                };
+                
+                localStorage.setItem('adminSession', JSON.stringify(sessionData));
+                localStorage.removeItem('adminLoggedIn'); // Remove old simple flag
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        });
+
+        // Clear any old simple authentication
+        localStorage.removeItem('adminLoggedIn');
+    </script>
+</body>
+</html>
